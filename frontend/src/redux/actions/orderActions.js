@@ -32,7 +32,11 @@ export const createOrder = (session_id) => async(dispatch) =>{
 
     }catch(error)
     {
-       dispatch(createOrderFail(error.response?.data?.message))
+       dispatch(
+         createOrderFail(
+           error.response?.data?.message || error.response?.data?.errMessage || error.message || "Failed to create order"
+         )
+       )
     }
 }
 
@@ -58,7 +62,11 @@ export const payment = (items,restaurant) => async(dispatch) =>{
 
     }catch(error)
     {
-       dispatch(paymentFail(error.response?.data?.message))
+       dispatch(
+         paymentFail(
+           error.response?.data?.message || error.response?.data?.errMessage || error.message || "Payment processing failed"
+         )
+       )
     }
 }
 
@@ -73,7 +81,11 @@ export const myOrders = () => async(dispatch) =>{
 
     }catch(error)
     {
-       dispatch(myOrdersFail(error.response?.data?.message))
+       dispatch(
+         myOrdersFail(
+           error.response?.data?.message || error.response?.data?.errMessage || error.message || "Failed to fetch orders"
+         )
+       )
     }
 }
 
@@ -88,7 +100,11 @@ export const getOrderDetails = (id) => async(dispatch) =>{
 
     }catch(error)
     {
-       dispatch(orderDetailsFail(error.response?.data?.message))
+       dispatch(
+         orderDetailsFail(
+           error.response?.data?.message || error.response?.data?.errMessage || error.message || "Failed to fetch order details"
+         )
+       )
     }
 }
 

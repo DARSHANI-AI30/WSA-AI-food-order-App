@@ -26,7 +26,11 @@ export const login = (email, password) => async (dispatch) => {
     });
     dispatch(loginSuccess(data.data.user));
   } catch (error) {
-    dispatch(loginFail("login Failed "));
+    dispatch(
+      loginFail(
+        error.response?.data?.message || error.message || "Login Failed"
+      )
+    );
   }
 };
 
@@ -40,7 +44,11 @@ export const register = (userData) => async (dispatch) => {
     });
     dispatch(loginSuccess(data.data.user));
   } catch (error) {
-    dispatch(loginFail(error.response?.data?.message));
+    dispatch(
+      loginFail(
+        error.response?.data?.message || error.message || "Registration Failed"
+      )
+    );
   }
 };
 
@@ -68,7 +76,11 @@ export const loadUser = () => async (dispatch) => {
   } catch (error) {
     console.log("loadUser error:", error.response);
 
-    dispatch(loadUserFail(error.response?.data?.message));
+    dispatch(
+      loadUserFail(
+        error.response?.data?.message || error.message || "Failed to load user"
+      )
+    );
   }
 };
 
@@ -83,7 +95,11 @@ export const updateProfile = (userData) => async (dispatch) => {
     });
     dispatch(updateSuccess(data.success));
   } catch (error) {
-    dispatch(updateFail(error.response?.data?.message));
+    dispatch(
+      updateFail(
+        error.response?.data?.message || error.message || "Profile update failed"
+      )
+    );
   }
 };
 
@@ -93,6 +109,10 @@ export const logout = () => async (dispatch) => {
     await api.get("v1/users/logout");
     dispatch(logoutSuccess());
   } catch (error) {
-    dispatch(logoutFail(error.response?.data?.message));
+    dispatch(
+      logoutFail(
+        error.response?.data?.message || error.message || "Logout failed"
+      )
+    );
   }
 };

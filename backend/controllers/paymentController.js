@@ -12,17 +12,25 @@ exports.processPayment = catchAsyncErrors(async (req, res, next) => {
     phone_number_collection: {
       enabled: true,
     },
-    line_items: req.body.items.map((item) => ({
-      price_data: {
-        currency: "inr",
-        product_data: {
-          name: item.foodItem.name,
-          images: [item.foodItem.images[0].url],
+    line_items: req.body.items.map((item) => {
+      const lineItem = {
+        price_data: {
+          currency: "inr",
+          product_data: {
+            name: item.foodItem.name,
+          },
+          unit_amount: item.foodItem.price * 100,
         },
-        unit_amount: item.foodItem.price * 100,
-      },
-      quantity: item.quantity,
-    })),
+        quantity: item.quantity,
+      };
+
+      const imageUrl = item.foodItem.images && item.foodItem.images[0] && item.foodItem.images[0].url;
+      if (imageUrl && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://"))) {
+        lineItem.price_data.product_data.images = [imageUrl];
+      }
+
+      return lineItem;
+    }),
     mode: "payment",
     shipping_address_collection: {
       allowed_countries: ["US", "IN"],

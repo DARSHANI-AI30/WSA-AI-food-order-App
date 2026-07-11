@@ -18,8 +18,8 @@ app.use(
     credentials: true,
   }),
 );
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(cookieParser());
 app.use(fileUpload());
 
@@ -44,8 +44,8 @@ const order = require("./routes/order");
 const auth = require("./routes/auth");
 const payment = require("./routes/payment");
 const cart = require("./routes/cart");
-app.use(express.json({ limit: "30kb" }));
-app.use(express.urlencoded({ extended: true, limit: "30kb" }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 
 app.use("/api/v1/eats", foodRouter);
 app.use("/api/v1/eats/menus", menuRouter);

@@ -9,6 +9,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faIndianRupee } from "@fortawesome/free-solid-svg-icons";
 import { payment } from "../../redux/actions/orderActions";
+import { clearErrors } from "../../redux/slices/orderSlice";
 import { toast } from "react-toastify"; 
 
 const Cart = () => {
@@ -16,10 +17,18 @@ const Cart = () => {
   const navigate = useNavigate();
 
   const { cartItems, restaurant } = useSelector((state) => state.cart);
+  const { error } = useSelector((state) => state.order);
 
   useEffect(() => {
     dispatch(fetchCartItems());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (error) {
+      toast.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, error]);
 
   const removeCartItemHandler = (id) => {
     dispatch(removeItemFromCart(id));
